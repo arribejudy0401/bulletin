@@ -13,6 +13,7 @@ class BlogController extends Controller
     public function index()
     {
         //
+        return view('pages.users.blog-management', ['blogs' => Blog::latest()->paginate(10)]);
     }
 
     /**
@@ -20,7 +21,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.users.create-blog');
     }
 
     /**
@@ -28,31 +29,46 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $validated['user_id'] = auth()->user()->id;
+
+        Blog::create($validated);
+
+        return back()->with('success', 'Blog successfully added');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Blog $blog)
-    {
-        //
+    public function show($id){
+        return view('pages.users.blog', ['blog'=> Blog::where('id', $id)->firstOrFail()]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Blog $blog)
+    public function edit($id)
     {
-        //
+        return view('pages.users.edit-blog', ['blog'=> Blog::where('id', $id)->firstOrFail()]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Blog $blog)
+    public function update(Request $request, $id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+
+        $blog->update($validated);
+
+        return back()->with('success', 'Blog edited successfully');
     }
 
     /**

@@ -14,16 +14,39 @@
 
                 <form method="POST">
 
+                    @if(session('success'))
+                    <div class="p-2 alert alert-success mb-2 rounded-0">
+                        {{session('success')}}
+                     </div>
+                    @endif
+
+                    @if(session('failure'))
+                    <div class="p-2 alert alert-danger mb-2 rounded-0">
+                    {{session('failure')}}
+                </div>
+                 @endif
+
                     @csrf
 
                     <div class="form-floating mb-2">
-                        <input type="email" class="form-control rounded-0" id="floatingInput" placeholder="name@example.com">
+                        <input type="email" class="form-control rounded-0 @error('email') is-invalid @enderror" name="email" id="floatingInput" placeholder="name@example.com" value="{{old('email')}}">
                         <label for="floatingInput">Email</label>
+                        <div class="text-danger">
+                        @error('email')
+                        {{$message}}
+                        @enderror
+                        </div>
 
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="password" class="form-control rounded-0" id="floatingPassword" placeholder="Password">
+                        <input type="password" class="form-control rounded-0 @error('password') is-invalid @enderror" name="password" id="floatingPassword" placeholder="Password" value="{{old('password')}}">
                         <label for="floatingPassword">Password</label>
+
+                         <div class="text-danger">
+                        @error('password')
+                        {{$message}}
+                        @enderror
+                        </div>
                     </div>
 
                     <p class="text-center text-muted mb-2">Don't have an account? <a href="{{ route('user.register') }}" class="fw-bold">Register</a></p>

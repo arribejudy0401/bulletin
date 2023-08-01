@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse text-center" id="navbarCollapse">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a href="{{ route('user.view') }}" class="nav-link text-white">My Profile</a></li>
-                <li class="nav-item"><a href="" class="nav-link text-white">Logout</a></li>
+                <li class="nav-item"><a href="{{route('user.logout')}}" class="nav-link text-white">Logout</a></li>
             </ul>
         </div>
     </div>

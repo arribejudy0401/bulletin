@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'] )->name('home.index');
 Route::any('/user/login', [UserController::class, 'login'])->name('user.login');
+Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
 Route::any('/user/register', [UserController::class, 'register'])->name('user.register');
 
 Route::get('/user/profile', [UserController::class, 'view'])->name('user.view');
 Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::patch('/user/update', [UserController::class, 'update'])->name('user.update');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
+Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
+Route::get('/blog/show/{id}', [BlogController::class, 'show'])->name('blog.show');
+Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
+Route::patch('/blog/edit/{id}', [BlogController::class, 'update'])->name('blog.update');
