@@ -17,10 +17,12 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', [HomeController::class, 'index'] )->name('home.index');
-Route::any('/user/login', [UserController::class, 'login'])->name('user.login');
-Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
-Route::any('/user/register', [UserController::class, 'register'])->name('user.register');
 
+Route::get('/user/login', [UserController::class, 'index'])->name('user.index');
+Route::post('/user', [UserController::class, 'login'])->name('user.login');
+Route::get('/user/logout', [UserController::class, 'logout'])->name('user.logout');
+Route::get('/user/create', [UserController::class, 'registrationForm'])->name('user.create');
+Route::post('/user/register', [UserController::class, 'register'])->name('user.register');
 Route::get('/user/profile', [UserController::class, 'view'])->name('user.view');
 Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
 Route::patch('/user/update', [UserController::class, 'update'])->name('user.update');
@@ -31,3 +33,4 @@ Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store')
 Route::get('/blog/show/{id}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
 Route::patch('/blog/edit/{id}', [BlogController::class, 'update'])->name('blog.update');
+Route::delete('/blog/delete/{id}', [BlogController::class, 'destroy'])->name('blog.delete');

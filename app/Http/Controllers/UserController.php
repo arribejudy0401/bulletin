@@ -2,50 +2,61 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    //
-    public function login(Request $request){
+    public function index(){
 
-        if($request->isMethod('GET')) return view('pages.login');
+        return view('pages.login');
 
-        $validated = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required',
-        ]);
+    }
+
+    public function login(LoginRequest $request){
+
+        $validated = $request->validated();
 
         if(auth()->attempt([
+
             'email'=> $validated['email'],
+
             'password'=> $validated['password']
+
         ])){
+
             $request->session()->regenerate();
 
-            return view('pages.users.profile', ['user'=> User::where('id', auth()->user()->id)->firstOrFail()]);
+            $user =  User::where('id', auth()->user()->id)->firstOrFail();
+
+            return view('pages.users.profile', ['user'=> $user]);
+
         }
 
         return back()->with('failure', 'Invalid email or password');
+
     }
 
     public function logout(){
+
         auth()->logout();
 
-        return redirect()->route('user.login')->with('success', 'Successfully logged out');
+        return redirect()->route('user.index')->with('success', 'Successfully logged out');
+
     }
 
-    public function register(User $user, Request $request){
-        if($request->isMethod('GET')) return view('pages.register');
+    public function registrationForm(){
+
+        return view('pages.register');
+
+    }
+
+    public function register(RegisterRequest $request){
         
-        $validated = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'email|required|unique:users,email',
-            'password' => 'required',
-        ]);
+        $validated = $request->validated();
 
         $validated['password'] = bcrypt($validated['password']);
 
@@ -56,25 +67,33 @@ class UserController extends Controller
     }
 
     public function view(){
-        return view('pages.users.profile', ['user'=> User::where('id', auth()->user()->id)->firstOrFail()]);
+
+        $user = User::where('id', auth()->user()->id)->firstOrFail();
+
+        return view('pages.users.profile', ['user'=> $user]);
+
     }
 
     public function edit(){
-        return view('pages.users.edit-profile', ['user'=> User::where('id', auth()->user()->id)->firstOrFail()]);
+
+        $user = User::where('id', auth()->user()->id)->firstOrFail();
+
+        return view('pages.users.edit-profile', ['user'=> $user]);
+
     }
 
-    public function update(Request $request){
+    public function update(ProfileRequest $request){
 
         $userId = auth()->user()->id;
+
         $user = User::findOrFail($userId);
 
-        $validated = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,' .$user->id,
-        ]);
+        $validated = $request->validated();
 
         $user->update($validated);
+
         return back()->with('success', 'Account successfully updated');
+
     }
+    
 }
