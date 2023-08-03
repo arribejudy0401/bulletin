@@ -10,7 +10,7 @@
                     
         <hr>
 
-        <p class="m-0">{{$blog->content}}</p>
+        <p class="m-0 text-break">{{$blog->content}}</p>
 
         <div class="text-end">
 

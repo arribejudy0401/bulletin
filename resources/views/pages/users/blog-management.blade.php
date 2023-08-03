@@ -57,13 +57,13 @@
                                 
                     <td>
                                     
-                        <a href="{{route('blog.show', $blog->id)}}" class="btn btn-secondary rounded-0"><i class="fa-solid fa-eye"></i> View</a>
+                        <a href="{{route('blog.show', $blog->id)}}" class="btn btn-secondary rounded-0 btn-sm"><i class="fa-solid fa-eye"></i> View</a>
 
                                     
-                        <a href="{{ route('blog.edit', $blog->id) }}" class="btn btn-primary rounded-0"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                        <a href="{{ route('blog.edit', $blog->id) }}" class="btn btn-primary rounded-0 btn-sm"> <i class="fa-solid fa-pen-to-square"></i> Edit</a>
 
                                     
-                        <button data-bs-toggle="modal" data-bs-target="#delete{{$blog->id}}" class="btn btn-danger rounded-0"><i class="fa-solid fa-trash"></i> Delete</button>
+                        <button data-bs-toggle="modal" data-bs-target="#delete{{$blog->id}}" class="btn btn-danger rounded-0 btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
                                 
                     </td>
           

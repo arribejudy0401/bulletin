@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
-use Illuminate\Http\Request;
+
 
 class BlogController extends Controller
 {
@@ -37,42 +37,42 @@ class BlogController extends Controller
 
     }
 
-    public function show($id)
+    public function show(Blog $blog)
     {
 
-        $blog = Blog::where([['id', $id],['user_id', auth()->user()->id]])->firstOrFail();
+        $post = Blog::where([['id', $blog->id],['user_id', auth()->user()->id]])->firstOrFail();
 
-        return view('pages.users.blog', ['blog'=> $blog]);
+        return view('pages.users.blog', ['blog'=> $post]);
 
     }
 
-    public function edit($id)
+    public function edit(Blog $blog)
     {
 
-        $blog = Blog::where('id', $id)->firstOrFail();
+        $post = Blog::where('id', $blog->id)->firstOrFail();
 
-        return view('pages.users.edit-blog', ['blog'=> $blog]);
+        return view('pages.users.edit-blog', ['blog'=> $post]);
 
     }
 
-    public function update(BlogRequest $request, $id)
+    public function update(BlogRequest $request, Blog $blog)
     {
-        $blog = Blog::findOrFail($id);
+        $post = Blog::findOrFail($blog->id);
 
         $validated = $request->validated();
 
-        $blog->update($validated);
+        $post->update($validated);
 
         return back()->with('success', 'Blog edited successfully');
 
     }
 
-    public function destroy($id)
+    public function destroy(Blog $blog)
     {
         
-        $blog = Blog::findOrFail($id);
+        $post = Blog::findOrFail($blog->id);
 
-        $blog->destroy($id);
+        $post->destroy($blog->id);
 
         return back()->with('success', 'Blog deleted successfully');
     }
